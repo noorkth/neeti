@@ -1,37 +1,21 @@
 /**
- * EmailJS service module
- * Replace the placeholder values below with your actual EmailJS credentials.
- * Sign up at https://www.emailjs.com to get your Service ID, Template ID, and Public Key.
- */
-
-export const EMAILJS_CONFIG = {
-  SERVICE_ID: 'YOUR_SERVICE_ID',       // e.g. 'service_abc123'
-  TEMPLATE_ID: 'YOUR_TEMPLATE_ID',     // e.g. 'template_xyz789'
-  PUBLIC_KEY: 'YOUR_PUBLIC_KEY',       // e.g. 'user_aBcDeFgHiJk'
-}
-
-/**
- * Sends a consultation request email via EmailJS.
- * @param {import('@emailjs/browser')} emailjs - The EmailJS browser SDK instance
+ * Sends a consultation request email via the Vercel serverless API route.
+ * The API route (/api/send-email) uses Gmail SMTP with Nodemailer server-side.
+ *
  * @param {object} formData - The consultation form data
  * @returns {Promise}
  */
-export async function sendConsultationEmail(emailjs, formData) {
-  const templateParams = {
-    from_name:      formData.name,
-    from_email:     formData.email,
-    phone:          formData.phone,
-    age:            formData.age,
-    gender:         formData.gender,
-    health_goal:    formData.healthGoal,
-    consultation:   formData.consultationType,
-    message:        formData.message,
+export async function sendConsultationEmail(formData) {
+  const response = await fetch('/api/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData),
+  })
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}))
+    throw new Error(err.error || 'Failed to send email')
   }
 
-  return emailjs.send(
-    EMAILJS_CONFIG.SERVICE_ID,
-    EMAILJS_CONFIG.TEMPLATE_ID,
-    templateParams,
-    EMAILJS_CONFIG.PUBLIC_KEY,
-  )
+  return response.json()
 }

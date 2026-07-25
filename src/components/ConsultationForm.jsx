@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import emailjs from '@emailjs/browser'
 import { sendConsultationEmail } from '../services/emailService'
 import { Send, CheckCircle, AlertCircle, User, Mail, Phone, Calendar, MessageSquare } from 'lucide-react'
 
@@ -46,11 +45,11 @@ export default function ConsultationForm() {
   const onSubmit = async (data) => {
     setStatus('sending')
     try {
-      await sendConsultationEmail(emailjs, data)
+      await sendConsultationEmail(data)
       setStatus('success')
       reset()
     } catch (err) {
-      console.error('EmailJS error:', err)
+      console.error('Email send error:', err)
       setStatus('error')
     }
   }
