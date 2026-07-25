@@ -76,3 +76,4 @@ Option B — GitHub:
 | Body font           | Inter (sans-serif)                |
 | Hero background     | Dark botanical gradient            |
 | Cards               | Glass morphism + subtle shadows    |
+# neeti
