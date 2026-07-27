@@ -111,7 +111,7 @@ export default function Footer() {
             </span>
             <span className="text-slate-700">·</span>
             <span className="text-slate-600 text-xs">
-              Valid until <span className="text-slate-400 font-medium">July 5, 2026</span>
+              Valid until <span className="text-slate-400 font-medium">July 5, 2032</span>
             </span>
           </div>
           <p className="text-slate-600 text-xs flex items-center gap-1">
