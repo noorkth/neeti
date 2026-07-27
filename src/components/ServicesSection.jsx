@@ -36,9 +36,9 @@ const services = [
     color: 'from-rose-400 to-red-500',
     bg: 'bg-rose-50',
     iconColor: 'text-rose-600',
-    title: 'PCOS Diet Planning',
-    desc: 'Hormone-balancing nutrition plans designed specifically for women with Polycystic Ovary Syndrome — addressing inflammation, insulin, and lifestyle factors.',
-    tags: ['Hormonal Balance', 'Anti-Inflammatory', 'PCOS'],
+    title: 'PMOS Management',
+    desc: 'Hormone-balancing nutrition plans designed specifically for women with Polycystic Ovary Syndrome (PCOS) — addressing inflammation, insulin resistance, and holistic lifestyle factors for long-term management.',
+    tags: ['Hormonal Balance', 'Anti-Inflammatory', 'PMOS'],
   },
   {
     icon: Scale,

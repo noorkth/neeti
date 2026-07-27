@@ -9,12 +9,12 @@ const highlights = [
   {
     icon: BookOpen,
     title: 'Academic Researcher',
-    desc: 'Currently pursuing MPhil-PhD in Nutrition at Tribhuvan University, ensuring every recommendation is grounded in the latest peer-reviewed evidence.',
+    desc: 'Currently pursuing a PhD in Nutrition at Tribhuvan University, with a completed MPhil in Food and Nutrition — ensuring every recommendation is grounded in the latest peer-reviewed evidence.',
   },
   {
     icon: Heart,
     title: 'Compassionate Counsellor',
-    desc: '8+ years of hands-on experience in diet counselling across corporate wellness, clinical, and freelance settings — meeting each client where they are.',
+    desc: '8+ years of hands-on experience in diet counselling across corporate wellness, clinical, and freelance settings — having counselled 3,000+ clients.',
   },
   {
     icon: Leaf,
@@ -62,10 +62,10 @@ export default function AboutSection() {
               </div>
 
               <p className="text-slate-200 leading-relaxed text-sm mb-6">
-                Neeti Kayastha is a multidimensional healthcare professional whose career bridges the precision of clinical nursing with the transformative power of evidence-based nutrition. With a Bachelor of Science in Nursing from Sri Krishna Rukmini College of Nursing (Bangalore) and a Master of Arts in Food & Nutrition from Padma Kanya Multiple Campus, she is now advancing research as an MPhil-PhD Scholar at Tribhuvan University.
+                Neeti Kayastha is a multidimensional healthcare professional whose career bridges the precision of clinical nursing with the transformative power of evidence-based nutrition. With a Bachelor of Science in Nursing from Rajiv Gandhi University of Health Sciences (2010–2014) and a Masters in Food & Nutrition from Tribhuvan University, she completed her MPhil in Food & Nutrition from TU (2023–2024) and is currently a PhD Scholar in Food & Nutrition at Tribhuvan University.
               </p>
               <p className="text-slate-300 leading-relaxed text-sm">
-                Over more than 8 years, Neeti has counselled hundreds of clients — from corporate professionals to post-operative patients — helping them achieve sustainable health through deeply personalised dietary strategies.
+                Over more than 8 years, Neeti has counselled 3,000+ clients — from corporate professionals to post-operative patients — helping them achieve sustainable health through deeply personalised dietary strategies.
               </p>
 
               {/* Tags */}
@@ -80,9 +80,10 @@ export default function AboutSection() {
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-6 space-y-4">
               <h4 className="font-semibold text-slate-700 text-sm uppercase tracking-wider">Current Positions</h4>
               {[
-                { org: 'National Center for Reproductive Health Pvt. Ltd.', role: 'Clinical Nutritionist' },
+                { org: 'National Center for Reproductive Health Pvt. Ltd.', role: 'Consultant Dietician' },
                 { org: 'NERC Project', role: 'Project Coordinator – Nutrition Education & Research Capacity Building' },
-                { org: 'Fuse Machines Pvt. Ltd.', role: 'Clinical Nutritionist / Nursing Supervisor' },
+                { org: 'Fusemachines Nepal Pvt. Ltd.', role: 'Clinical Dietician / Registered Nurse' },
+                { org: 'NIDP – Nutrition & Dietary Improvement Project', role: 'Nutrition Consultant' },
               ].map(({ org, role }) => (
                 <div key={org} className="flex items-start gap-3">
                   <span className="mt-1.5 w-2 h-2 rounded-full bg-sage-500 shrink-0" />
@@ -117,7 +118,7 @@ export default function AboutSection() {
               </div>
               <div>
                 <p className="text-white font-semibold text-sm">Nursing Council Registration</p>
-                <p className="text-slate-400 text-xs">Reg No: 27480 — Valid until July 5, 2026</p>
+                <p className="text-slate-400 text-xs">Reg No: 27480 — Valid until July 5, 2032</p>
               </div>
               <span className="ml-auto px-3 py-1 rounded-full bg-sage-500/20 text-sage-300 text-xs font-medium border border-sage-500/30">Active</span>
             </div>

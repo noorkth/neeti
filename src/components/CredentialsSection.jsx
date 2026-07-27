@@ -2,25 +2,33 @@ import { GraduationCap, Briefcase, Award, CheckCircle2 } from 'lucide-react'
 
 const education = [
   {
-    degree: 'MPhil – PhD (Nutrition)',
+    degree: 'PhD Scholar – Food and Nutrition',
     institution: 'Tribhuvan University',
-    period: '2022 – Present',
+    period: '2024 – Present',
     status: 'In Progress',
     statusColor: 'bg-amber-100 text-amber-700 border-amber-200',
     dotColor: 'bg-amber-500',
   },
   {
-    degree: 'MA in Food and Nutrition',
-    institution: 'Padma Kanya Multiple Campus',
-    period: '2018 – 2020',
+    degree: 'MPhil in Food and Nutrition',
+    institution: 'Tribhuvan University',
+    period: '2023 – 2024',
+    status: 'Completed',
+    statusColor: 'bg-sage-100 text-sage-700 border-sage-200',
+    dotColor: 'bg-sage-500',
+  },
+  {
+    degree: 'Masters in Food and Nutrition',
+    institution: 'Tribhuvan University',
+    period: '2016 – 2018',
     status: 'Completed',
     statusColor: 'bg-sage-100 text-sage-700 border-sage-200',
     dotColor: 'bg-sage-500',
   },
   {
     degree: 'B.Sc. Nursing',
-    institution: 'Sri Krishna Rukmini College of Nursing, Bangalore',
-    period: '2012 – 2016',
+    institution: 'Rajiv Gandhi University of Health Sciences',
+    period: '2010 – 2014',
     status: 'Completed',
     statusColor: 'bg-sage-100 text-sage-700 border-sage-200',
     dotColor: 'bg-sage-500',
@@ -29,38 +37,62 @@ const education = [
 
 const experience = [
   {
-    role: 'Clinical Nutritionist',
+    role: 'Consultant Dietician',
     org: 'National Center for Reproductive Health Pvt. Ltd.',
-    period: '2023 – Present',
-    desc: 'Providing specialised clinical nutrition services with a focus on reproductive, maternal, and infant health.',
+    period: '2025 – Present',
+    desc: 'Providing specialised clinical nutrition and dietetic services with a focus on reproductive, maternal, and infant health.',
   },
   {
     role: 'Project Coordinator',
-    org: 'NERC Project – Strengthening Nutrition Education & Research Capacity Building',
-    period: '2022 – Present',
+    org: 'NERC Project – Strengthening Nutrition Education & Research Capacity in Universities in Nepal',
+    period: '2024 – Present',
     desc: 'Leading capacity-building initiatives in nutrition education and academic research across national institutions.',
   },
   {
-    role: 'Clinical Nutritionist / Nursing Supervisor',
-    org: 'Fuse Machines Pvt. Ltd.',
-    period: '2020 – Present',
-    desc: 'Corporate wellness nutrition counselling and nursing supervision for a leading tech company.',
+    role: 'Clinical Dietician / Registered Nurse',
+    org: 'Fusemachines Nepal Pvt. Ltd.',
+    period: '2023 – Present',
+    desc: 'Corporate wellness nutrition counselling and clinical dietetic services for a leading AI technology company.',
+  },
+  {
+    role: 'Nutrition Consultant',
+    org: 'NIDP – Nutrition and Dietary Improvement Project',
+    period: '2024 – Present',
+    desc: 'Providing expert nutrition consultancy to improve dietary practices and nutritional outcomes.',
+  },
+  {
+    role: 'Trainer – Training Dieticians in Nepal',
+    org: 'NERC Project',
+    period: '2024 – Present',
+    desc: 'Training and capacity building for dieticians across Nepal under the NERC project framework.',
   },
   {
     role: 'Freelance Diet Counsellor',
     org: 'Independent Practice',
-    period: '2016 – Present',
-    desc: 'Eight-plus years of one-on-one diet counselling across therapeutic, weight management, and sports nutrition domains.',
+    period: '2018 – Present',
+    desc: 'One-on-one diet counselling across therapeutic, weight management, PCOS, and sports nutrition domains for 3,000+ clients.',
+  },
+  {
+    role: 'Clinical Nutritionist',
+    org: 'Medpro International',
+    period: '2022 – 2023',
+    desc: 'Clinical nutrition assessment and therapeutic dietary management for patients across diverse medical conditions.',
+  },
+  {
+    role: 'Nutrition Coach',
+    org: 'Fitness Studio',
+    period: '2018 – 2019',
+    desc: 'Sports and performance nutrition coaching, body composition planning, and fitness-oriented diet programmes.',
   },
 ]
 
 const certBadges = [
   'Registered Nurse (Reg No: 27480)',
-  'Clinical Dietician',
-  'MPhil-PhD Scholar',
-  'PCOS Nutrition Specialist',
-  'Sports Nutrition',
-  'Prenatal Nutrition',
+  'Consultant Dietician',
+  'PhD Scholar – Food & Nutrition',
+  'PCOS Management Specialist',
+  'Prenatal & Postnatal Nutrition',
+  'Sports Nutrition Coach',
 ]
 
 /**

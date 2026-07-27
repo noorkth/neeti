@@ -1,10 +1,10 @@
 import { ArrowDown, Star, Award, Users, Clock } from 'lucide-react'
 
 const stats = [
-  { icon: Clock,  value: '8+',   label: 'Years Experience' },
-  { icon: Users,  value: '500+', label: 'Clients Served'   },
-  { icon: Award,  value: 'MPhil',label: 'PhD Scholar'      },
-  { icon: Star,   value: '100%', label: 'Personalised Care' },
+  { icon: Clock,  value: '8+',    label: 'Years Experience' },
+  { icon: Users,  value: '3000+', label: 'Clients Counselled' },
+  { icon: Award,  value: 'PhD',   label: 'Scholar'           },
+  { icon: Star,   value: '100%',  label: 'Personalised Care'  },
 ]
 
 /**
@@ -108,11 +108,11 @@ export default function HeroSection() {
                   <span className="text-5xl font-serif font-bold text-white">NK</span>
                 </div>
                 <h2 className="text-white font-serif font-bold text-2xl">Neeti Kayastha</h2>
-                <p className="text-sage-300 text-sm mt-1 font-medium">MPhil-PhD Scholar • Clinical Dietician</p>
+                <p className="text-sage-300 text-sm mt-1 font-medium">PhD Scholar • Clinical Dietician & Registered Nurse</p>
 
                 {/* Specialty pills */}
                 <div className="mt-6 flex flex-wrap justify-center gap-2">
-                  {['Therapeutic Nutrition', 'PCOS Diet', 'Weight Management', 'Prenatal Nutrition', 'Metabolic Health', 'Sports Nutrition'].map(s => (
+                  {['Therapeutic Nutrition', 'PCOS Management', 'Weight Management', 'Prenatal Nutrition', 'Metabolic Health', 'Sports Nutrition'].map(s => (
                     <span
                       key={s}
                       className="px-3 py-1 rounded-full text-xs font-medium text-sage-200 border border-sage-400/30"
@@ -126,9 +126,10 @@ export default function HeroSection() {
                 {/* Affiliation */}
                 <div className="mt-6 pt-6 border-t border-white/10 text-left space-y-2">
                   {[
-                    'Tribhuvan University – MPhil/PhD',
+                    'Tribhuvan University – PhD Scholar',
                     'National Center for Reproductive Health',
-                    'NERC Project Coordinator',
+                    'NERC Project – Project Coordinator',
+                    'Fusemachines Nepal – Clinical Dietician',
                   ].map(affil => (
                     <div key={affil} className="flex items-center gap-2 text-slate-300 text-xs">
                       <span className="w-1.5 h-1.5 rounded-full bg-sage-400 shrink-0" />

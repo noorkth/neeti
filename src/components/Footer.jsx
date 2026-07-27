@@ -10,7 +10,7 @@ const footerLinks = {
   Services: [
     'Therapeutic Nutrition',
     'Weight Management',
-    'PCOS Diet Planning',
+    'PMOS Management',
     'Prenatal Nutrition',
     'Sports Nutrition',
     'Metabolic Health',
