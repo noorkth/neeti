@@ -1,10 +1,10 @@
 import { ArrowDown, Star, Award, Users, Clock } from 'lucide-react'
 
 const stats = [
-  { icon: Clock,  value: '8+',    label: 'Years Experience' },
-  { icon: Users,  value: '3000+', label: 'Clients Counselled' },
-  { icon: Award,  value: 'PhD',   label: 'Scholar'           },
-  { icon: Star,   value: '100%',  label: 'Personalised Care'  },
+  { icon: Clock, value: '8+', label: 'Years Experience' },
+  { icon: Users, value: '3000+', label: 'Clients Counselled' },
+  { icon: Award, value: 'PhD', label: 'Scholar' },
+  { icon: Star, value: '100%', label: 'Personalised Care' },
 ]
 
 /**
@@ -104,8 +104,12 @@ export default function HeroSection() {
             >
               {/* Decorative icon top */}
               <div className="p-8 text-center">
-                <div className="w-28 h-28 mx-auto rounded-full bg-gradient-to-br from-sage-400 to-sage-700 flex items-center justify-center shadow-xl shadow-sage-700/50 mb-6">
-                  <span className="text-5xl font-serif font-bold text-white">NK</span>
+                <div className="w-28 h-28 mx-auto rounded-full overflow-hidden ring-4 ring-sage-400/40 shadow-xl shadow-sage-700/50 mb-6">
+                  <img
+                    src="/profile.jpg"
+                    alt="Neeti Kayastha"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
                 <h2 className="text-white font-serif font-bold text-2xl">Neeti Kayastha</h2>
                 <p className="text-sage-300 text-sm mt-1 font-medium">PhD Scholar • Clinical Dietician & Registered Nurse</p>

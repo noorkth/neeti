@@ -52,8 +52,12 @@ export default function AboutSection() {
             {/* Visual accent card */}
             <div className="rounded-3xl bg-gradient-to-br from-sage-700 to-slate-900 p-8 text-white shadow-2xl shadow-sage-900/20">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center">
-                  <span className="font-serif font-bold text-2xl">NK</span>
+                <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-white/20 shadow-md">
+                  <img
+                    src="/profile.jpg"
+                    alt="Neeti Kayastha"
+                    className="w-full h-full object-cover object-top"
+                  />
                 </div>
                 <div>
                   <h3 className="font-serif font-bold text-xl">Neeti Kayastha</h3>
