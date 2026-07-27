@@ -70,7 +70,7 @@ const experience = [
     role: 'Freelance Diet Counsellor',
     org: 'Independent Practice',
     period: '2018 – Present',
-    desc: 'One-on-one diet counselling across therapeutic, weight management, PCOS, and sports nutrition domains for 3,000+ clients.',
+    desc: 'One-on-one diet counselling across therapeutic, weight management, PMOS, and sports nutrition domains for 3,000+ clients.',
   },
   {
     role: 'Clinical Nutritionist',
@@ -90,7 +90,7 @@ const certBadges = [
   'Registered Nurse (Reg No: 27480)',
   'Consultant Dietician',
   'PhD Scholar – Food & Nutrition',
-  'PCOS Management Specialist',
+  'PMOS Management Specialist',
   'Prenatal & Postnatal Nutrition',
   'Sports Nutrition Coach',
 ]

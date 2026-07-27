@@ -6,7 +6,7 @@ import { Send, CheckCircle, AlertCircle, User, Mail, Phone, Calendar, MessageSqu
 const consultationTypes = [
   'General Nutrition Consultation',
   'Weight Management',
-  'PCOS Diet Planning',
+  'PMOS Diet Planning',
   'Prenatal / Postnatal Nutrition',
   'Metabolic Disease Management',
   'Therapeutic / Medical Nutrition',
@@ -21,7 +21,7 @@ const healthGoals = [
   'Gain Weight / Build Muscle',
   'Manage a Medical Condition',
   'Improve Energy & Vitality',
-  'Hormonal Balance (PCOS, Thyroid)',
+  'Hormonal Balance (PMOS, Thyroid)',
   'Prenatal / Postnatal Support',
   'Athletic Performance',
   'General Healthy Eating',

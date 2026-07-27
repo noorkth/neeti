@@ -37,7 +37,7 @@ const services = [
     bg: 'bg-rose-50',
     iconColor: 'text-rose-600',
     title: 'PMOS Management',
-    desc: 'Hormone-balancing nutrition plans designed specifically for women with Polycystic Ovary Syndrome (PCOS) — addressing inflammation, insulin resistance, and holistic lifestyle factors for long-term management.',
+    desc: 'Hormone-balancing nutrition plans designed specifically for women with Polyendocrine Metabolic Ovarian Syndrome (PMOS) — addressing inflammation, insulin resistance, and holistic lifestyle factors for long-term management.',
     tags: ['Hormonal Balance', 'Anti-Inflammatory', 'PMOS'],
   },
   {

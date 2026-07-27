@@ -112,7 +112,7 @@ export default function HeroSection() {
 
                 {/* Specialty pills */}
                 <div className="mt-6 flex flex-wrap justify-center gap-2">
-                  {['Therapeutic Nutrition', 'PCOS Management', 'Weight Management', 'Prenatal Nutrition', 'Metabolic Health', 'Sports Nutrition'].map(s => (
+                  {['Therapeutic Nutrition', 'PMOS Management', 'Weight Management', 'Prenatal Nutrition', 'Metabolic Health', 'Sports Nutrition'].map(s => (
                     <span
                       key={s}
                       className="px-3 py-1 rounded-full text-xs font-medium text-sage-200 border border-sage-400/30"
