@@ -2,10 +2,10 @@ import { Leaf, Mail, Phone, MapPin, ExternalLink } from 'lucide-react'
 
 const footerLinks = {
   Navigation: [
-    { label: 'About',        href: '#about'       },
-    { label: 'Services',     href: '#services'    },
-    { label: 'Credentials',  href: '#credentials' },
-    { label: 'Contact',      href: '#contact'     },
+    { label: 'About', href: '#about' },
+    { label: 'Services', href: '#services' },
+    { label: 'Credentials', href: '#credentials' },
+    { label: 'Contact', href: '#contact' },
   ],
   Services: [
     'Therapeutic Nutrition',

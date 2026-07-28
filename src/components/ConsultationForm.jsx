@@ -1,7 +1,149 @@
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
-import { sendConsultationEmail } from '../services/emailService'
+import { useState, useEffect, useRef } from 'react'
+import { sendConsultationEmail, RateLimitError } from '../services/emailService'
 import { Send, CheckCircle, AlertCircle, User, Mail, Phone, Calendar, MessageSquare } from 'lucide-react'
+
+// ── Disposable / spam email domain blocklist ─────────────────────────────────
+const BLOCKED_EMAIL_DOMAINS = new Set([
+  'mailinator.com', 'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org',
+  'guerrillamail.biz', 'guerrillamail.de', 'guerrillamail.info',
+  'tempmail.com', 'temp-mail.org', 'temp-mail.io', 'throwam.com',
+  'throwaway.email', 'trashmail.com', 'trashmail.net', 'trashmail.at',
+  'trashmail.io', 'trashmail.me', 'trashmail.xyz', 'yopmail.com',
+  'yopmail.fr', 'cool.fr.nf', 'jetable.fr.nf', 'nospam.ze.tc',
+  'nomail.xl.cx', 'mega.zik.dj', 'speed.1s.fr', 'courriel.fr.nf',
+  'moncourrier.fr.nf', 'monemail.fr.nf', 'monmail.fr.nf',
+  'sharklasers.com', 'guerrillamailblock.com', 'grr.la', 'spam4.me',
+  'fakeinbox.com', 'maildrop.cc', 'dispostable.com', 'mailnull.com',
+  'spamgourmet.com', 'spamgourmet.net', 'spamgourmet.org',
+  'spamgourmet.com', 'spamspot.com', 'spamthisplease.com',
+  'binkmail.com', 'bob.email', 'clrmail.com', 'discard.email',
+  'discardmail.com', 'discardmail.de', 'drdrb.com', 'drdrb.net',
+  'dump-email.info', 'dumpandforfeit.com', 'dumpmail.de',
+  'emailondeck.com', 'emailsensei.com', 'fakemail.net', 'filzmail.com',
+  'fleckens.hu', 'garbagemail.org', 'get2mail.fr', 'getonemail.com',
+  'getonemail.net', 'hatespam.org', 'hidemail.de', 'hulapla.de',
+  'ieatspam.eu', 'ieatspam.info', 'inoutmail.de', 'inoutmail.eu',
+  'inoutmail.info', 'inoutmail.net', 'jetable.com', 'jetable.net',
+  'jetable.org', 'klzlk.com', 'kurzepost.de', 'letthemeatspam.com',
+  'lhsdv.com', 'lifebyfood.com', 'lol.ovpn.to', 'lortemail.dk',
+  'lukop.dk', 'maileater.com', 'mailfreeonline.com',
+  'mailguard.me', 'mailimate.com', 'mailmetrash.com', 'mailmoat.com',
+  'mailnew.com', 'mailscrap.com', 'mailsiphon.com', 'mailslite.com',
+  'mailzilla.com', 'mailzilla.org', 'mbx.cc', 'meltmail.com',
+  'messagebeamer.de', 'mintemail.com', 'misterpinball.de',
+  'mox.pp.ua', 'mt2009.com', 'mt2014.com', 'mytrashmail.com',
+  'neomailbox.com', 'nepwk.com', 'nervmich.net', 'nervtmich.net',
+  'netmails.com', 'netmails.net', 'netzidiot.de', 'nevermail.de',
+  'no-spam.ws', 'nobulk.com', 'noclickemail.com', 'nogmailspam.info',
+  'nospamfor.us', 'nospammail.net', 'notmailinator.com',
+  'nwldx.com', 'odnorazovoe.ru', 'oneoffemail.com', 'oneoffmail.com',
+  'onewaymail.com', 'pookmail.com', 'privy-mail.com',
+  'proxymail.eu', 'punkass.com', 'putthisinyourspamdatabase.com',
+  'qq.com', 'quickinbox.com', 'rcpt.at', 'recode.me',
+  'regbypass.com', 'safetymail.info', 'safetypost.de', 'sandelf.de',
+  'shiftmail.com', 'shitmail.me', 'shortmail.net', 'sibmail.com',
+  'sinnlos-mail.de', 'slapsfromlastnight.com', 'slaskpost.se',
+  'slave-auctions.net', 'slopsbox.com', 'smellfear.com',
+  'snakemail.com', 'sneakemail.com', 'sneakmail.de', 'snkmail.com',
+  'sofort-mail.de', 'sogetthis.com', 'soodonims.com', 'spam.la',
+  'spam.su', 'spamail.de', 'spambob.com', 'spambob.net',
+  'spambob.org', 'spamcannon.com', 'spamcannon.net',
+  'spamcero.com', 'spamcon.org', 'spamcorptastic.com',
+  'spamcowboy.com', 'spamcowboy.net', 'spamcowboy.org',
+  'spamday.com', 'spamex.com', 'spamfree24.de', 'spamfree24.eu',
+  'spamfree24.info', 'spamfree24.net', 'spamfree24.org',
+  'spamfree.eu', 'spamgoes.in', 'spamherelots.com',
+  'spamherelots.com', 'spamhereplease.com', 'spamhole.com',
+  'spamify.com', 'spaminator.de', 'spamkill.info',
+  'spaml.com', 'spaml.de', 'spammotel.com', 'spamoff.de',
+  'spamotron.com', 'spamovore.com', 'spamox.com', 'spampoison.com',
+  'spampop.net', 'spamtest.com', 'spamtrail.com', 'speed.1s.fr',
+  'spikio.com', 'spoofmail.de', 'squizzy.de', 'squizzy.eu',
+  'squizzy.net', 'stinkefinger.net', 'stuffmail.de',
+  'supergreatmail.com', 'supermailer.jp', 'superstachel.de',
+  'suremail.info', 'tafmail.com', 'tagyourself.com', 'teewars.org',
+  'teleworm.com', 'teleworm.us', 'tempalias.com', 'tempe-mail.com',
+  'tempemail.biz', 'tempemail.com', 'tempemail.net', 'tempemail.us',
+  'tempinbox.co.uk', 'tempinbox.com', 'tempthe.net',
+  'thankyou2010.com', 'thisisnotmyrealemail.com', 'throwam.com',
+  'throwam.net', 'throwamsg.com', 'tmail.com', 'tmail.io',
+  'tmailinator.com', 'toiea.com', 'trashdevil.com', 'trashdevil.de',
+  'trashemail.de', 'trashimail.de', 'trashmail.at', 'trashmail.com',
+  'trashmail.io', 'trashmail.me', 'trashmail.net', 'trashmailer.com',
+  'trashmail.org', 'trashmail.xyz', 'trashmailer.com',
+  'trbvm.com', 'turual.com', 'twinmail.de', 'tyldd.com',
+  'uggsrock.com', 'umail.net', 'uroid.com', 'us.af',
+  'venompen.com', 'veryrealemail.com', 'viditag.com',
+  'viralplays.com', 'vpn.st', 'vsimcard.com', 'vubby.com',
+  'wasteland.rfc822.org', 'webemail.me', 'webm4il.info',
+  'weg-werf-email.de', 'wegwerfadresse.de', 'wegwerfemail.com',
+  'wegwerfemail.de', 'wegwerfemail.net', 'wegwerfemail.org',
+  'wegwerfmail.de', 'wegwerfmail.net', 'wegwerfmail.org',
+  'wegwerfmailadresse.de', 'wetrainbayarea.com', 'wetrainbayarea.org',
+  'wh4f.org', 'whyspam.me', 'willhackforfood.biz',
+  'willselfdestruct.com', 'wmail.cf', 'wollan.info',
+  'wronghead.com', 'wuzupmail.net', 'xagloo.com', 'xemaps.com',
+  'xents.com', 'xmaily.com', 'xoxy.net', 'xyzfree.net',
+  'yapped.net', 'yeah.net', 'yogamaven.com', 'yopmail.com',
+  'yopmail.fr', 'youmail.ga', 'ypmail.webarnak.fr.eu.org',
+  'yuurok.com', 'z1p.biz', 'za.com', 'zebins.com',
+  'zebins.eu', 'zehnminuten.de', 'zeitersetzung.net',
+  'zippymail.info', 'zoemail.net', 'zoemail.org', 'zomg.info',
+  'aa.com', 'aaa.com', 'test.com', 'example.com', 'example.net',
+  'example.org', 'invalid.com', 'noemail.com', 'none.com',
+  'nomail.com', 'no-reply.com', 'noreply.com', 'fake.com',
+  'fakemail.com', 'dummy.com', 'spam.com', 'spamme.com',
+])
+
+/**
+ * Returns an error string if the email is invalid or uses a blocked domain.
+ * Returns true (valid) otherwise.
+ */
+function validateEmail(value) {
+  if (!value) return 'Email is required'
+
+  // Basic format: local@domain.tld  (no consecutive dots, no starting/ending dots)
+  const emailRegex = /^[a-zA-Z0-9](?:[a-zA-Z0-9._%+\-]*[a-zA-Z0-9])?@[a-zA-Z0-9](?:[a-zA-Z0-9\-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9\-]*[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/
+  if (!emailRegex.test(value)) return 'Please enter a valid email address'
+
+  const domain = value.split('@')[1].toLowerCase()
+
+  // Block known disposable / spam domains
+  if (BLOCKED_EMAIL_DOMAINS.has(domain)) {
+    return 'Please use a real email address — disposable or temporary emails are not accepted'
+  }
+
+  // Reject suspiciously short TLDs combined with single-char local parts
+  const [local] = value.split('@')
+  if (local.length < 2) return 'Please enter a valid email address'
+
+  return true
+}
+
+/**
+ * Validates an international phone number.
+ * Must start with + followed by a country code and 7–15 digits total.
+ * Spaces, dashes, and parentheses are allowed as separators.
+ */
+function validatePhone(value) {
+  if (!value) return 'Phone number is required'
+
+  // Remove allowed formatting characters for digit count check
+  const stripped = value.replace(/[\s\-().]/g, '')
+
+  // Must start with + and a country code digit (1-9)
+  if (!/^\+[1-9]/.test(stripped)) {
+    return 'Include your country code (e.g. +977 9808531814 or +1 555 123 4567)'
+  }
+
+  // E.164: + followed by 7 to 15 digits
+  if (!/^\+[0-9]{7,15}$/.test(stripped)) {
+    return 'Phone number must be 7–15 digits after the country code'
+  }
+
+  return true
+}
 
 const consultationTypes = [
   'General Nutrition Consultation',
@@ -32,8 +174,104 @@ const healthGoals = [
  * Uses React Hook Form for validation.
  * Submits via EmailJS — configure credentials in /src/services/emailService.js
  */
+// ── Client-side rate limit constants (mirrors server) ────────────────────────
+const CL_MAX_ATTEMPTS = 3
+const CL_WINDOW_MS    = 60 * 60 * 1000  // 1 hour
+const LS_KEY_COUNT    = 'neeti_rl_count'
+const LS_KEY_START    = 'neeti_rl_start'
+const LS_KEY_BLOCKED  = 'neeti_rl_blocked_until'
+
+/** Read & validate the current rate-limit state from localStorage. */
+function getLocalRLState() {
+  const blockedUntil = Number(localStorage.getItem(LS_KEY_BLOCKED) || 0)
+  const count        = Number(localStorage.getItem(LS_KEY_COUNT)   || 0)
+  const windowStart  = Number(localStorage.getItem(LS_KEY_START)   || 0)
+  const now          = Date.now()
+
+  // Hard block still active
+  if (blockedUntil && now < blockedUntil) return { blocked: true, blockedUntil }
+
+  // Window expired — reset
+  if (now - windowStart >= CL_WINDOW_MS) {
+    localStorage.removeItem(LS_KEY_COUNT)
+    localStorage.removeItem(LS_KEY_START)
+    localStorage.removeItem(LS_KEY_BLOCKED)
+    return { blocked: false, blockedUntil: 0 }
+  }
+
+  return { blocked: false, blockedUntil: 0, count, windowStart }
+}
+
+/** Record a new submission attempt; returns true if now blocked. */
+function recordAttempt() {
+  const now         = Date.now()
+  const windowStart = Number(localStorage.getItem(LS_KEY_START) || 0)
+  let   count       = Number(localStorage.getItem(LS_KEY_COUNT) || 0)
+
+  // Reset window if expired
+  if (now - windowStart >= CL_WINDOW_MS) {
+    count = 0
+    localStorage.setItem(LS_KEY_START, String(now))
+  } else if (count === 0) {
+    localStorage.setItem(LS_KEY_START, String(now))
+  }
+
+  count += 1
+  localStorage.setItem(LS_KEY_COUNT, String(count))
+
+  if (count >= CL_MAX_ATTEMPTS) {
+    const blockedUntil = Number(localStorage.getItem(LS_KEY_START)) + CL_WINDOW_MS
+    localStorage.setItem(LS_KEY_BLOCKED, String(blockedUntil))
+    return { blocked: true, blockedUntil }
+  }
+
+  return { blocked: false, blockedUntil: 0 }
+}
+
 export default function ConsultationForm() {
-  const [status, setStatus] = useState('idle') // 'idle' | 'sending' | 'success' | 'error'
+  const [status, setStatus]           = useState('idle') // 'idle'|'sending'|'success'|'error'|'blocked'
+  const [blockedUntil, setBlockedUntil] = useState(0)     // Unix ms
+  const [countdown, setCountdown]     = useState('')      // "HH:MM:SS"
+  const timerRef                      = useRef(null)
+
+  // ── Restore block state on mount ───────────────────────────────────────────
+  useEffect(() => {
+    const { blocked, blockedUntil: until } = getLocalRLState()
+    if (blocked) {
+      setStatus('blocked')
+      setBlockedUntil(until)
+    }
+  }, [])
+
+  // ── Live countdown ticker ───────────────────────────────────────────────────
+  useEffect(() => {
+    if (status !== 'blocked' || !blockedUntil) return
+
+    function tick() {
+      const remaining = blockedUntil - Date.now()
+      if (remaining <= 0) {
+        // Block window expired
+        localStorage.removeItem(LS_KEY_BLOCKED)
+        localStorage.removeItem(LS_KEY_COUNT)
+        localStorage.removeItem(LS_KEY_START)
+        setStatus('idle')
+        setBlockedUntil(0)
+        setCountdown('')
+        clearInterval(timerRef.current)
+        return
+      }
+      const h = Math.floor(remaining / 3_600_000)
+      const m = Math.floor((remaining % 3_600_000) / 60_000)
+      const s = Math.floor((remaining % 60_000) / 1_000)
+      setCountdown(
+        `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+      )
+    }
+
+    tick()
+    timerRef.current = setInterval(tick, 1000)
+    return () => clearInterval(timerRef.current)
+  }, [status, blockedUntil])
 
   const {
     register,
@@ -43,14 +281,29 @@ export default function ConsultationForm() {
   } = useForm()
 
   const onSubmit = async (data) => {
+    // Client-side guard
+    const { blocked, blockedUntil: until } = recordAttempt()
+    if (blocked) {
+      setBlockedUntil(until)
+      setStatus('blocked')
+      return
+    }
+
     setStatus('sending')
     try {
       await sendConsultationEmail(data)
       setStatus('success')
       reset()
     } catch (err) {
-      console.error('Email send error:', err)
-      setStatus('error')
+      if (err instanceof RateLimitError) {
+        // Sync with server-returned timestamp
+        localStorage.setItem(LS_KEY_BLOCKED, String(err.retryAfter))
+        setBlockedUntil(err.retryAfter)
+        setStatus('blocked')
+      } else {
+        console.error('Email send error:', err)
+        setStatus('error')
+      }
     }
   }
 
@@ -174,6 +427,24 @@ export default function ConsultationForm() {
                 </div>
               )}
 
+              {/* ── Rate-limit / blocked state ── */}
+              {status === 'blocked' && (
+                <div className="mb-6 flex items-start gap-3 p-4 rounded-2xl bg-amber-50 border border-amber-300">
+                  <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-amber-900 font-semibold text-sm">Too Many Requests</p>
+                    <p className="text-amber-700 text-xs mt-0.5">
+                      You have reached the maximum of {CL_MAX_ATTEMPTS} consultation requests.
+                      Please try again in{' '}
+                      <span className="font-mono font-bold text-amber-900">{countdown || '—'}</span>.
+                    </p>
+                    <p className="text-amber-600 text-xs mt-1">
+                      Need urgent help? Call or email Neeti directly.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
 
                 {/* Row: Name + Email */}
@@ -203,7 +474,7 @@ export default function ConsultationForm() {
                       className={inputClass(errors.email)}
                       {...register('email', {
                         required: 'Email is required',
-                        pattern: { value: /^\S+@\S+\.\S+$/, message: 'Invalid email address' },
+                        validate: validateEmail,
                       })}
                     />
                     {errors.email && <p className={errorClass}><AlertCircle className="w-3 h-3" />{errors.email.message}</p>}
@@ -219,9 +490,12 @@ export default function ConsultationForm() {
                     <input
                       id="phone"
                       type="tel"
-                      placeholder="+977 XXXX XXXXXX"
+                      placeholder="+977 9808531814"
                       className={inputClass(errors.phone)}
-                      {...register('phone', { required: 'Phone number is required' })}
+                      {...register('phone', {
+                        required: 'Phone number is required',
+                        validate: validatePhone,
+                      })}
                     />
                     {errors.phone && <p className={errorClass}><AlertCircle className="w-3 h-3" />{errors.phone.message}</p>}
                   </div>
@@ -304,13 +578,18 @@ export default function ConsultationForm() {
                 <button
                   id="submit-consultation-btn"
                   type="submit"
-                  disabled={status === 'sending'}
+                  disabled={status === 'sending' || status === 'blocked'}
                   className="w-full flex items-center justify-center gap-2 px-7 py-4 bg-sage-600 hover:bg-sage-700 disabled:bg-slate-300 text-white font-semibold rounded-2xl shadow-lg shadow-sage-600/25 hover:shadow-sage-600/40 transition-all duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:translate-y-0"
                 >
                   {status === 'sending' ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
                       Sending…
+                    </>
+                  ) : status === 'blocked' ? (
+                    <>
+                      <AlertCircle className="w-4 h-4" />
+                      Blocked — try again in {countdown}
                     </>
                   ) : (
                     <>

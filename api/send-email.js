@@ -1,9 +1,65 @@
 import nodemailer from 'nodemailer'
 
+// ── Server-side rate limiter ──────────────────────────────────────────────────
+// Simple in-memory store.  Works per-serverless-instance; sufficient for a
+// low-traffic appointment form without needing an external store like Redis.
+//
+// Schema: Map<ip, { count: number, windowStart: number }>
+const RATE_LIMIT_MAP = new Map()
+const MAX_ATTEMPTS   = 3          // max submissions per window
+const WINDOW_MS      = 60 * 60 * 1000  // 1 hour in ms
+
+function getRateLimitResult(ip) {
+  const now    = Date.now()
+  const record = RATE_LIMIT_MAP.get(ip)
+
+  if (!record || now - record.windowStart >= WINDOW_MS) {
+    // First request or window has expired — start fresh
+    RATE_LIMIT_MAP.set(ip, { count: 1, windowStart: now })
+    return { blocked: false, attemptsLeft: MAX_ATTEMPTS - 1, retryAfter: null }
+  }
+
+  if (record.count >= MAX_ATTEMPTS) {
+    // Still within the block window
+    const retryAfter = record.windowStart + WINDOW_MS
+    return { blocked: true, attemptsLeft: 0, retryAfter }
+  }
+
+  // Increment counter within existing window
+  record.count += 1
+  RATE_LIMIT_MAP.set(ip, record)
+  return { blocked: false, attemptsLeft: MAX_ATTEMPTS - record.count, retryAfter: null }
+}
+
+// Periodically purge stale entries so the Map doesn't grow unbounded
+setInterval(() => {
+  const now = Date.now()
+  for (const [ip, record] of RATE_LIMIT_MAP.entries()) {
+    if (now - record.windowStart >= WINDOW_MS) RATE_LIMIT_MAP.delete(ip)
+  }
+}, WINDOW_MS)
+
 export default async function handler(req, res) {
   // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  // ── Rate limit check ──────────────────────────────────────────────────────
+  // Vercel sets x-forwarded-for; fall back to socket address for local dev
+  const ip = (
+    req.headers['x-forwarded-for']?.split(',')[0].trim() ||
+    req.socket?.remoteAddress ||
+    'unknown'
+  )
+
+  const { blocked, retryAfter } = getRateLimitResult(ip)
+
+  if (blocked) {
+    return res.status(429).json({
+      error: 'Too many requests',
+      retryAfter,           // Unix ms timestamp when the block lifts
+    })
   }
 
   const {
