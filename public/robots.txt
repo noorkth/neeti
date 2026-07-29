@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block direct access to serverless API routes from scrapers
+Disallow: /api/
+
+Sitemap: https://neetikayastha.com/sitemap.xml
