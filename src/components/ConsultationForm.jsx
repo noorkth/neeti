@@ -281,7 +281,14 @@ export default function ConsultationForm() {
   } = useForm()
 
   const onSubmit = async (data) => {
-    // Client-side guard
+    // ── Honeypot check — bots fill this field, humans never see it ──
+    if (data.website) {
+      // Silently succeed to not tip off the bot
+      setStatus('success')
+      return
+    }
+
+    // Client-side rate-limit guard
     const { blocked, blockedUntil: until } = recordAttempt()
     if (blocked) {
       setBlockedUntil(until)
@@ -389,12 +396,12 @@ export default function ConsultationForm() {
                 {[
                   'Initial 45-minute deep-dive assessment',
                   'Comprehensive personalised nutrition plan',
-                  'Follow-up support &amp; plan adjustments',
+                  'Follow-up support & plan adjustments',
                   'Evidence-based, medication-aware recommendations',
                 ].map(item => (
                   <li key={item} className="flex items-start gap-2.5 text-slate-500 text-xs leading-relaxed">
                     <CheckCircle className="w-3.5 h-3.5 text-sage-500 mt-0.5 shrink-0" />
-                    <span dangerouslySetInnerHTML={{ __html: item }} />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
@@ -446,6 +453,18 @@ export default function ConsultationForm() {
               )}
 
               <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
+
+                {/* ── Honeypot anti-bot field (hidden from humans, filled by bots) ── */}
+                <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                  <label htmlFor="website">Leave this blank</label>
+                  <input
+                    id="website"
+                    type="text"
+                    autoComplete="off"
+                    tabIndex={-1}
+                    {...register('website')}
+                  />
+                </div>
 
                 {/* Row: Name + Email */}
                 <div className="grid sm:grid-cols-2 gap-4">
