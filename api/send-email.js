@@ -4,8 +4,8 @@ import nodemailer from 'nodemailer'
 // Add your Vercel production domain AND any preview domains you want to allow.
 // Keep VITE_ prefix out of here — this is server-only code.
 const ALLOWED_ORIGINS = new Set([
-  'https://neetikayastha.com',
-  'https://www.neetikayastha.com',
+  'https://neetikayastha.com.np',
+  'https://www.neetikayastha.com.np',
   // During Vercel preview deployments the origin is a *.vercel.app subdomain.
   // Remove the line below once you have a stable production domain.
   process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
