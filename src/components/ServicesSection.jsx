@@ -85,7 +85,7 @@ export default function ServicesSection() {
   const scrollTo = href => document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' })
 
   return (
-    <section id="services" className="section-pad bg-cream-50">
+    <section id="services" aria-label="Nutrition Services" className="section-pad bg-cream-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* ── Header ── */}
@@ -104,9 +104,9 @@ export default function ServicesSection() {
         {/* ── Services grid ── */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {services.map(({ icon: Icon, bg, iconColor, title, desc, tags }) => (
-            <div
+            <article
               key={title}
-              className="group relative rounded-3xl bg-white border border-slate-100 p-6 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-400 hover:-translate-y-2 cursor-default"
+              className="group relative rounded-3xl bg-white border border-slate-100 p-6 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-400 hover:-translate-y-2"
             >
               {/* Subtle hover gradient overlay */}
               <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -133,19 +133,19 @@ export default function ServicesSection() {
                   </span>
                 ))}
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
         {/* ── CTA strip ── */}
         <div className="mt-14 text-center">
           <p className="text-slate-500 mb-6 text-sm">Not sure which service fits your needs? Let's talk it through.</p>
-          <button
-            onClick={() => scrollTo('#contact')}
-            className="px-8 py-3.5 bg-sage-600 hover:bg-sage-700 text-white font-semibold rounded-2xl shadow-lg shadow-sage-600/25 hover:shadow-sage-600/40 transition-all duration-200 hover:-translate-y-0.5"
+          <a
+            href="#contact"
+            className="px-8 py-3.5 bg-sage-600 hover:bg-sage-700 text-white font-semibold rounded-2xl shadow-lg shadow-sage-600/25 hover:shadow-sage-600/40 transition-all duration-200 hover:-translate-y-0.5 inline-block"
           >
             Request a Free Diet Consultation
-          </button>
+          </a>
         </div>
       </div>
     </section>

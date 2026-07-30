@@ -1,7 +1,17 @@
 User-agent: *
 Allow: /
-
-# Block direct access to serverless API routes from scrapers
 Disallow: /api/
+
+# Allow image indexing for profile photo and OG image
+User-agent: Googlebot-Image
+Allow: /profile.jpg
+Allow: /og-image.png
+
+# Prevent ad crawlers from hitting the form endpoint
+User-agent: AdsBot-Google
+Disallow: /api/
+
+# Slow down generic aggressive scrapers
+Crawl-delay: 10
 
 Sitemap: https://neetikayastha.com.np/sitemap.xml

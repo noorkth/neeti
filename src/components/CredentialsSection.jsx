@@ -128,11 +128,11 @@ export default function CredentialsSection() {
               <h3 className="font-semibold text-slate-900 text-base">Academic Background</h3>
             </div>
 
-            <div className="relative pl-6 border-l-2 border-sage-100 space-y-8">
+            <ol className="relative pl-6 border-l-2 border-sage-100 space-y-8" aria-label="Education timeline">
               {education.map(({ degree, institution, period, status, statusColor, dotColor }) => (
-                <div key={degree} className="relative">
+                <li key={degree} className="relative">
                   {/* Timeline dot */}
-                  <span className={`absolute -left-[1.45rem] top-1.5 w-3.5 h-3.5 rounded-full ${dotColor} border-2 border-white shadow-md`} />
+                  <span className={`absolute -left-[1.45rem] top-1.5 w-3.5 h-3.5 rounded-full ${dotColor} border-2 border-white shadow-md`} aria-hidden="true" />
 
                   <div className="rounded-2xl border border-slate-100 bg-slate-50 p-5 hover:border-sage-200 hover:bg-sage-50/30 transition-all duration-200">
                     <div className="flex items-start justify-between gap-3 mb-1">
@@ -140,11 +140,11 @@ export default function CredentialsSection() {
                       <span className={`shrink-0 px-2.5 py-0.5 rounded-full text-[10px] font-medium border ${statusColor}`}>{status}</span>
                     </div>
                     <p className="text-sage-700 text-xs font-medium mb-1">{institution}</p>
-                    <p className="text-slate-400 text-xs">{period}</p>
+                    <time className="text-slate-400 text-xs" dateTime={period.split(' – ')[0]}>{period}</time>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
 
           {/* ── Experience Timeline ── */}
@@ -156,20 +156,20 @@ export default function CredentialsSection() {
               <h3 className="font-semibold text-slate-900 text-base">Professional Experience</h3>
             </div>
 
-            <div className="relative pl-6 border-l-2 border-slate-200 space-y-6">
+            <ol className="relative pl-6 border-l-2 border-slate-200 space-y-6" aria-label="Work experience timeline">
               {experience.map(({ role, org, period, desc }) => (
-                <div key={role} className="relative">
-                  <span className="absolute -left-[1.45rem] top-1.5 w-3.5 h-3.5 rounded-full bg-slate-400 border-2 border-white shadow-sm" />
+                <li key={role} className="relative">
+                  <span className="absolute -left-[1.45rem] top-1.5 w-3.5 h-3.5 rounded-full bg-slate-400 border-2 border-white shadow-sm" aria-hidden="true" />
 
                   <div className="rounded-2xl border border-slate-100 bg-white p-5 shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200">
                     <p className="text-slate-800 font-semibold text-sm">{role}</p>
                     <p className="text-sage-600 text-xs font-medium mt-0.5 mb-1">{org}</p>
-                    <p className="text-slate-400 text-[10px] mb-2">{period}</p>
+                    <time className="text-slate-400 text-[10px] mb-2 block" dateTime={period.split(' – ')[0]}>{period}</time>
                     <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
         </div>
 
@@ -179,17 +179,17 @@ export default function CredentialsSection() {
             <Award className="w-5 h-5 text-gold-400" />
             <h3 className="text-white font-semibold text-sm">Certifications &amp; Specialisations</h3>
           </div>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <ul className="grid sm:grid-cols-2 md:grid-cols-3 gap-3" role="list" aria-label="Certifications and specialisations">
             {certBadges.map(badge => (
-              <div
+              <li
                 key={badge}
                 className="flex items-center gap-2.5 px-4 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-colors duration-200"
               >
-                <CheckCircle2 className="w-4 h-4 text-sage-400 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-sage-400 shrink-0" aria-hidden="true" />
                 <span className="text-slate-200 text-xs font-medium">{badge}</span>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
 
       </div>

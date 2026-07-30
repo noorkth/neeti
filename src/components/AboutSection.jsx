@@ -55,7 +55,11 @@ export default function AboutSection() {
                 <div className="w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-white/20 shadow-md">
                   <img
                     src="/profile.jpg"
-                    alt="Neeti Kayastha"
+                    alt="Neeti Kayastha — Clinical Dietician and Registered Nurse"
+                    width="64"
+                    height="64"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
@@ -83,50 +87,52 @@ export default function AboutSection() {
             {/* Current roles */}
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-6 space-y-4">
               <h4 className="font-semibold text-slate-700 text-sm uppercase tracking-wider">Current Positions</h4>
-              {[
+              <ul className="space-y-4" role="list" aria-label="Current professional positions">
+                {[
                 { org: 'National Center for Reproductive Health Pvt. Ltd.', role: 'Consultant Dietician' },
                 { org: 'NERC Project', role: 'Project Coordinator – Nutrition Education & Research Capacity Building' },
                 { org: 'Fusemachines Nepal Pvt. Ltd.', role: 'Clinical Dietician / Registered Nurse' },
                 { org: 'NIDP – Nutrition & Dietary Improvement Project', role: 'Nutrition Consultant' },
               ].map(({ org, role }) => (
-                <div key={org} className="flex items-start gap-3">
-                  <span className="mt-1.5 w-2 h-2 rounded-full bg-sage-500 shrink-0" />
+                <li key={org} className="flex items-start gap-3">
+                  <span className="mt-1.5 w-2 h-2 rounded-full bg-sage-500 shrink-0" aria-hidden="true" />
                   <div>
                     <p className="text-slate-800 text-sm font-semibold">{org}</p>
                     <p className="text-slate-500 text-xs">{role}</p>
                   </div>
-                </div>
+                </li>
               ))}
+            </ul>
             </div>
           </div>
 
           {/* Right: highlight cards */}
-          <div className="grid sm:grid-cols-2 gap-5">
+          <ul className="grid sm:grid-cols-2 gap-5" role="list" aria-label="Professional highlights">
             {highlights.map(({ icon: Icon, title, desc }) => (
-              <div
+              <li
                 key={title}
                 className="group rounded-2xl border border-slate-100 bg-white p-6 shadow-sm hover:shadow-xl hover:shadow-sage-200/30 hover:border-sage-200 transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="w-10 h-10 rounded-xl bg-sage-50 group-hover:bg-sage-100 flex items-center justify-center mb-4 transition-colors duration-200">
-                  <Icon className="w-5 h-5 text-sage-600" />
+                  <Icon className="w-5 h-5 text-sage-600" aria-hidden="true" />
                 </div>
                 <h3 className="font-semibold text-slate-800 text-sm mb-2">{title}</h3>
                 <p className="text-slate-500 text-xs leading-relaxed">{desc}</p>
-              </div>
+              </li>
             ))}
 
             {/* Nursing licence badge */}
-            <div className="sm:col-span-2 rounded-2xl bg-gradient-to-r from-slate-800 to-slate-900 p-5 flex items-center gap-4 shadow-lg">
+            <li className="sm:col-span-2 rounded-2xl bg-gradient-to-r from-slate-800 to-slate-900 p-5 flex items-center gap-4 shadow-lg">
               <div className="w-12 h-12 rounded-xl bg-gold-400/20 flex items-center justify-center shrink-0 border border-gold-400/30">
-                <span className="text-gold-400 text-xl">🏅</span>
+                <span className="text-gold-400 text-xl" aria-hidden="true">🏅</span>
               </div>
               <div>
                 <p className="text-white font-semibold text-sm">Nursing Council Registration</p>
                 <p className="text-slate-400 text-xs">Reg No: 27480 — Valid until July 5, 2032</p>
               </div>
               <span className="ml-auto px-3 py-1 rounded-full bg-sage-500/20 text-sage-300 text-xs font-medium border border-sage-500/30">Active</span>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
       </div>
     </section>

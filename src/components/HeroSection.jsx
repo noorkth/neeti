@@ -58,21 +58,21 @@ export default function HeroSection() {
 
           {/* CTAs */}
           <div className="animate-fade-up delay-200 flex flex-wrap gap-4">
-            <button
+            <a
               id="hero-book-cta"
-              onClick={() => scrollTo('#contact')}
+              href="#contact"
               className="group px-7 py-3.5 bg-sage-500 hover:bg-sage-600 text-white font-semibold rounded-2xl shadow-xl shadow-sage-700/40 hover:shadow-sage-600/60 transition-all duration-300 hover:-translate-y-1 flex items-center gap-2"
             >
               Book a Consultation
               <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
-            </button>
-            <button
+            </a>
+            <a
               id="hero-services-cta"
-              onClick={() => scrollTo('#services')}
+              href="#services"
               className="px-7 py-3.5 border border-white/20 hover:border-white/50 text-white font-semibold rounded-2xl backdrop-blur-sm hover:bg-white/8 transition-all duration-300"
             >
               View Services
-            </button>
+            </a>
           </div>
 
           {/* Stats row */}
@@ -107,11 +107,16 @@ export default function HeroSection() {
                 <div className="w-28 h-28 mx-auto rounded-full overflow-hidden ring-4 ring-sage-400/40 shadow-xl shadow-sage-700/50 mb-6">
                   <img
                     src="/profile.jpg"
-                    alt="Neeti Kayastha"
+                    alt="Neeti Kayastha — Clinical Dietician and Registered Nurse"
+                    width="112"
+                    height="112"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="sync"
                     className="w-full h-full object-cover object-top"
                   />
                 </div>
-                <h2 className="text-white font-serif font-bold text-2xl">Neeti Kayastha</h2>
+                <p className="text-white font-serif font-bold text-2xl">Neeti Kayastha</p>
                 <p className="text-sage-300 text-sm mt-1 font-medium">PhD Scholar • Clinical Dietician & Registered Nurse</p>
 
                 {/* Specialty pills */}
@@ -148,13 +153,14 @@ export default function HeroSection() {
       </div>
 
       {/* ── Scroll indicator ─────────────────── */}
-      <button
-        onClick={() => scrollTo('#about')}
+      <a
+        href="#about"
+        aria-label="Scroll down to About section"
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400 hover:text-sage-300 transition-colors duration-200 animate-fade-up delay-600"
       >
-        <span className="text-xs tracking-widest uppercase font-medium">Scroll</span>
-        <ArrowDown className="w-4 h-4 animate-bounce" />
-      </button>
+        <span className="text-xs tracking-widest uppercase font-medium" aria-hidden="true">Scroll</span>
+        <ArrowDown className="w-4 h-4 animate-bounce" aria-hidden="true" />
+      </a>
     </section>
   )
 }
